@@ -3,6 +3,13 @@
  */
 package com.krupet
 
+import io.ktor.application.call
+import io.ktor.response.respondText
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+
 class App {
     val greeting: String
         get() {
@@ -10,6 +17,17 @@ class App {
         }
 }
 
-fun main(args: Array<String>) {
-    println(App().greeting)
+//fun main(args: Array<String>) {
+//    println(App().greeting)
+//}
+
+
+fun main() {
+    embeddedServer(Netty, port = 8000) {
+        routing {
+            get ("/") {
+                call.respondText("""{ msg:"Hello, world!"}""")
+            }
+        }
+    }.start(wait = true)
 }
